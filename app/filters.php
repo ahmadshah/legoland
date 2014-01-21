@@ -78,3 +78,20 @@ Route::filter('csrf', function()
 		throw new Illuminate\Session\TokenMismatchException;
 	}
 });
+
+/*
+|--------------------------------------------------------------------------
+| ACL Filter
+|--------------------------------------------------------------------------
+|
+| The ACL filter would check against our RBAC metric to ensure that only
+| user with the right authorization can access certain part of the
+| application.
+|
+*/
+
+Route::filter('acl', function ($route, $request, $value) {
+    if (! App::make('acl')->can("{$value} foobar")) {
+        return Redirect::to('/');
+    }
+});

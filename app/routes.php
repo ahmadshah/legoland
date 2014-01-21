@@ -13,5 +13,23 @@
 
 Route::get('/', function()
 {
-	return View::make('hello');
+    Auth::loginUsingId(2);
+    return Auth::roles();
 });
+
+Route::get('/administrator', function()
+{
+    Auth::loginUsingId(1);
+    return Auth::roles();
+});
+
+Route::get('foobar', ['before' => "acl:view", function()
+{
+    echo 'View Foobar';
+}]);
+
+Route::get('foobar/manage', ['before' => "acl:manage", function()
+{
+    echo Str::title('manage') . ' Foobar';
+}]);
+
